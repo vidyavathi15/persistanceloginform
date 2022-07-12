@@ -1,5 +1,5 @@
 // import React from 'react';
-// import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 // import './index.css';
 // import App from './App';
 // import reportWebVitals from './reportWebVitals';
@@ -17,21 +17,59 @@
 // reportWebVitals();
 
 import React from 'react'
-import { render } from 'react-dom'
+// import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import reducer from '../src/Reducer'
 import App from '../src/App'
 import './index.css';
 import { createStore } from 'redux';
 
-const store = createStore(
-  reducer,
-   window.__REDUX_DEVTOOLS_EXTENSION__ && 
-   window.__REDUX_DEVTOOLS_EXTENSION__()
+import {persistReducer, persistStore} from "redux-persist" 
+import storage from 'redux-persist/lib/storage'
+import { PersistGate } from 'redux-persist/integration/react';
+
+// const store = createStore(
+//   reducer,
+//    window.__REDUX_DEVTOOLS_EXTENSION__ && 
+//    window.__REDUX_DEVTOOLS_EXTENSION__()
+// )
+
+
+const persistConfig={
+   key:"root", 
+   storage
+}
+
+
+const persistedReducer = persistReducer(persistConfig,  reducer)
+
+const store = createStore(persistedReducer)
+const persistedStore = persistStore(store)
+
+const root = ReactDOM.createRoot(
+   document.getElementById('root')
+) 
+
+
+root.render(
+<React.StrictMode>
+        <Provider store = {store} >
+           <PersistGate persistor={persistedStore}>
+              <App />
+              </PersistGate>
+      
+         </Provider>
+    </React.StrictMode>
 )
 
-render(
-   <Provider store = {store}>
-      <App />
-   </Provider>, document.getElementById('root')
-)
+
+// const root= ReactDOM.createRoot(document.getElementById("root"))
+// root.render(
+
+//    <React.StrictMode>
+//        <Provider store = {store} ><App />
+      
+//          </Provider>
+
+//    </React.StrictMode>
+// )

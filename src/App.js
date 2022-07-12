@@ -18,7 +18,13 @@
 
 import React, { Component } from 'react';
 import './App.css';
-import CounterContainer from './CounterContainer';
+import CounterContainer from './CounterContainer';  
+
+
+// here Counter is alredy Bounded in counterContainer component 
+// we should import counterContainner in APP.jss
+
+
 
 class App extends Component {
    render() {

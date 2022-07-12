@@ -38,4 +38,7 @@ const mapDispatchToProps = (dispatch) => {
       reset: () => dispatch(reset())
    };
 };
+
+// here Counter is alredy Bounded in counterContainer component 
+// we should import counterContainner in APP.js
 export default connect(mapStateToProps, mapDispatchToProps)(Counter);
